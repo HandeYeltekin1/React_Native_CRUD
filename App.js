@@ -3,7 +3,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import IndexScreen from "./src/screen/IndexScreen";
-import { BlogProvider } from "./src/context/BlogContext";
+import { Provider as BlogProvider } from "./src/context/BlogContext";
 
 const navigator = createStackNavigator(
   {
@@ -19,26 +19,8 @@ const navigator = createStackNavigator(
 const App = createAppContainer(navigator);
 export default () => {
   return (
-    <BlogProvider>
+    <Provider>
       <App />
-    </BlogProvider>
+    </Provider>
   );
 };
-
-// export default function App() {
-//   return (
-//     <View style={styles.container}>
-//       <Text>Open up App.js to start working on your app!</Text>
-//       <StatusBar style="auto" />
-//     </View>
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-// });
