@@ -7,15 +7,19 @@ import {
   Button,
   TouchableOpacity,
 } from "react-native";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Feather } from "@expo/vector-icons";
 import { Context as BlogContext } from "../context/BlogContext";
 
 const IndexScreen = ({ navigation }) => {
-  const { state, addBlogPost, deleteBlogPost } = useContext(BlogContext);
+  const { state, deleteBlogPost } = useContext(BlogContext);
   return (
     <View>
-      <Button title="Add Post" onPress={addBlogPost} />
-
+      {/* <Button
+        title="Add Post"
+        onPress={() => {
+          navigation.navigate("Create");
+        }}
+      /> */}
       <FlatList
         data={state}
         keyExtractor={(blogPost) => blogPost.title}
@@ -39,6 +43,15 @@ const IndexScreen = ({ navigation }) => {
       />
     </View>
   );
+};
+IndexScreen.navigationOptions = ({ navigation }) => {
+  return {
+    headerRight: () => (
+      <TouchableOpacity onPress={() => navigation.navigate("Create")}>
+        <Feather name="plus" size={30} />
+      </TouchableOpacity>
+    ),
+  };
 };
 const styles = StyleSheet.create({
   row: {

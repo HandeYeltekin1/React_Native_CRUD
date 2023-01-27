@@ -6,19 +6,20 @@ const blogReducer = (state, action) => {
     case "delete_blogpost":
       return state.filter((blogPost) => blogPost.id !== action.payload);
     case "add_blogpost": {
-      // console.log(typeof state, state.length);
       return state.length > 0
         ? [
             ...state,
             {
               id: Math.floor(Math.random() * 99999),
-              title: `BlogPost#${state.length + 1}`,
+              title: action.payload.title,
+              content: action.payload.content,
             },
           ]
         : [
             {
               id: Math.floor(Math.random() * 99999),
-              title: `BlogPost#${state.length + 1}`,
+              title: action.payload.title,
+              content: action.payload.content,
             },
           ];
     }
@@ -28,8 +29,12 @@ const blogReducer = (state, action) => {
 };
 
 const addBlogPost = (dispatch) => {
-  return () => {
-    dispatch({ type: "add_blogpost" });
+  return async (title, content, callback) => {
+    dispatch({
+      type: "add_blogpost",
+      payload: { title, content },
+    });
+    callback();
   };
 };
 const deleteBlogPost = (dispatch) => {
