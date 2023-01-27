@@ -4,10 +4,12 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import IndexScreen from "./src/screen/IndexScreen";
 import { Provider as BlogProvider } from "./src/context/BlogContext";
+import ShowScreen from "./src/screen/ShowScreen";
 
 const navigator = createStackNavigator(
   {
     Index: IndexScreen,
+    Show: ShowScreen,
   },
   {
     initialRouteName: "Index",
@@ -19,8 +21,8 @@ const navigator = createStackNavigator(
 const App = createAppContainer(navigator);
 export default () => {
   return (
-    <Provider>
+    <BlogProvider>
       <App />
-    </Provider>
+    </BlogProvider>
   );
 };
