@@ -1,4 +1,5 @@
 import React, { useReducer } from "react";
+import { call } from "react-native-reanimated";
 import createDataContext from "./createDataContext";
 const BlogContext = React.createContext();
 const blogReducer = (state, action) => {
@@ -23,6 +24,17 @@ const blogReducer = (state, action) => {
             },
           ];
     }
+    case "edit_blogpost":
+      return state.map((blogPost) => {
+        return blogPost.id === action.payload.id ? action.payload : blogPost;
+      });
+
+    //   if (blogPost.id === action.payload.id) {
+    //     return action.payload;
+    //   } else {
+    //     return blogPost;
+    //   }
+    // });
     default:
       return state;
   }
@@ -34,7 +46,10 @@ const addBlogPost = (dispatch) => {
       type: "add_blogpost",
       payload: { title, content },
     });
-    callback();
+    if (callback) {
+      callback();
+    }
+    // callback();
   };
 };
 const deleteBlogPost = (dispatch) => {
@@ -42,10 +57,22 @@ const deleteBlogPost = (dispatch) => {
     dispatch({ type: "delete_blogpost", payload: id });
   };
 };
+const editBlogPost = (dispatch) => {
+  return (id, title, content, callback) => {
+    dispatch({
+      type: "edit_blogpost",
+      payload: { id, title, content },
+    });
+    callback();
+    // if (callback) {
+    //   callback();
+    // }
+  };
+};
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost },
-  Array.from([])
+  { addBlogPost, deleteBlogPost, editBlogPost },
+  [{ id: 1, title: "text", content: "merhaba" }]
 );
 export default BlogContext;
