@@ -26,7 +26,6 @@ ShowScreen.navigationOptions = ({ navigation }) => {
           navigation.navigate("Edit", { id: navigation.getParam("id") })
         }
       >
-        {/* <EvilIcons name="pencil" size={40} /> */}
         <Entypo name="edit" size={40} color="blue" />
       </TouchableOpacity>
     ),

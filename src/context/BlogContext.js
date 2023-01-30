@@ -1,9 +1,12 @@
 import React, { useReducer } from "react";
 import { call } from "react-native-reanimated";
+import jsonServer from "../api/jsonServer";
 import createDataContext from "./createDataContext";
 const BlogContext = React.createContext();
 const blogReducer = (state, action) => {
   switch (action.type) {
+    case "get_blogposts":
+      return action.payload;
     case "delete_blogpost":
       return state.filter((blogPost) => blogPost.id !== action.payload);
     case "add_blogpost": {
@@ -28,18 +31,16 @@ const blogReducer = (state, action) => {
       return state.map((blogPost) => {
         return blogPost.id === action.payload.id ? action.payload : blogPost;
       });
-
-    //   if (blogPost.id === action.payload.id) {
-    //     return action.payload;
-    //   } else {
-    //     return blogPost;
-    //   }
-    // });
     default:
       return state;
   }
 };
-
+const getBlogPosts = (dispatch) => {
+  return async () => {
+    const response = await jsonServer.get("/blogposts");
+    dispatch({ type: "get_blogposts", payload: "response.data" });
+  };
+};
 const addBlogPost = (dispatch) => {
   return async (title, content, callback) => {
     dispatch({
@@ -49,7 +50,6 @@ const addBlogPost = (dispatch) => {
     if (callback) {
       callback();
     }
-    // callback();
   };
 };
 const deleteBlogPost = (dispatch) => {
@@ -63,16 +63,15 @@ const editBlogPost = (dispatch) => {
       type: "edit_blogpost",
       payload: { id, title, content },
     });
-    callback();
-    // if (callback) {
-    //   callback();
-    // }
+    if (callback) {
+      callback();
+    }
   };
 };
 
 export const { Context, Provider } = createDataContext(
   blogReducer,
-  { addBlogPost, deleteBlogPost, editBlogPost },
-  [{ id: 1, title: "text", content: "merhaba" }]
+  { addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts },
+  []
 );
 export default BlogContext;

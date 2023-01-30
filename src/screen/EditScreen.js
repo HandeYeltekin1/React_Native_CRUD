@@ -8,7 +8,6 @@ const EditScreen = ({ navigation }) => {
   const blogPost = state.find(
     (blogPost) => blogPost.id === navigation.getParam("id")
   );
-  //   console.log(navigation.pop("Index"));
 
   return (
     <BlogPostForm
